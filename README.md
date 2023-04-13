@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/jaguadoromero/vscode-php-create-class/master/icon.webp" alt="Create PHP Class" />
+    <img src="https://raw.githubusercontent.com/jaguadoromero/vscode-php-create-class/master/icon.png" alt="Create PHP Class" />
 </p>
 
 # Create PHP Class for Visual Studio Code

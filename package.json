@@ -20,7 +20,7 @@
     ],
     "publisher": "i74ifa",
     "license": "MIT",
-    "icon": "icon.webp",
+    "icon": "icon.png",
     "keywords": [
         "php",
         "create",
@@ -57,8 +57,8 @@
                         "category": "PHP",
                         "title": "New PHP Class",
                         "icon": {
-                            "light": "../icon.webp",
-                            "dark": "../icon.webp"
+                            "light": "../icon.png",
+                            "dark": "../icon.png"
                         }
                     }
                 ]
