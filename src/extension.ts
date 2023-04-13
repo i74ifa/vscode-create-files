@@ -1,28 +1,29 @@
-import * as vscode from 'vscode'
-import Creator from './Creator'
+import * as vscode from 'vscode';
+import Creator from './Creator';
 
 export function activate(context: vscode.ExtensionContext) {
-    let creator: Creator = new Creator()
+    let creator: Creator = new Creator();
 
-    let createClass = vscode.commands.registerCommand('phpCreateClass.createClass', (folder) => creator.createFile('class', folder))
-    let createInterface = vscode.commands.registerCommand('phpCreateClass.createInterface', (folder) => creator.createFile('interface', folder))
-    let createTrait = vscode.commands.registerCommand('phpCreateClass.createTrait', (folder) => creator.createFile('trait', folder))
-    let createEnum = vscode.commands.registerCommand('phpCreateClass.createEnum', (folder) => creator.createFile('enum', folder))
-    let generateClassCode = vscode.commands.registerCommand('phpCreateClass.generateClassCode', () => creator.generateCode('class'))
-    let generateInterfaceCode = vscode.commands.registerCommand('phpCreateClass.generateInterfaceCode', () => creator.generateCode('interface'))
-    let generateTraitCode = vscode.commands.registerCommand('phpCreateClass.generateTraitCode', () => creator.generateCode('trait'))
-    let generateEnumCode = vscode.commands.registerCommand('phpCreateClass.generateEnumCode', () => creator.generateCode('enum'))
+    let createClass = vscode.commands.registerCommand('CreateNewFiles.createPhpClass', (folder) => creator.createFile('Class', folder));
+    let createInterface = vscode.commands.registerCommand('CreateNewFiles.createPhpInterface', (folder) => creator.createFile('Interface', folder));
+    let createTrait = vscode.commands.registerCommand('CreateNewFiles.createPhpTrait', (folder) => creator.createFile('Trait', folder));
+    let createEnum = vscode.commands.registerCommand('CreateNewFiles.createPhpEnum', (folder) => creator.createFile('Enum', folder));
+    let generateClassCode = vscode.commands.registerCommand('CreateNewFiles.generatePhpClassCode', () => creator.generateCode('Class'));
+    let generateInterfaceCode = vscode.commands.registerCommand('CreateNewFiles.generatePhpInterfaceCode', () => creator.generateCode('Interface'));
+    let generateTraitCode = vscode.commands.registerCommand('CreateNewFiles.generatePhpTraitCode', () => creator.generateCode('Trait'));
+    let generateEnumCode = vscode.commands.registerCommand('CreateNewFiles.generatePhpEnumCode', () => creator.generateCode('Enum'));
+    let createVueFile = vscode.commands.registerCommand('CreateNewFiles.createVueFile', (folder) => creator.createFile('Vue', folder, 'vue'));
 
-    context.subscriptions.push(createClass)
-    context.subscriptions.push(createInterface)
-    context.subscriptions.push(createTrait)
-    context.subscriptions.push(createEnum)
-    context.subscriptions.push(generateClassCode)
-    context.subscriptions.push(generateInterfaceCode)
-    context.subscriptions.push(generateTraitCode)
-    context.subscriptions.push(generateEnumCode)
+    context.subscriptions.push(createClass);
+    context.subscriptions.push(createInterface);
+    context.subscriptions.push(createTrait);
+    context.subscriptions.push(createEnum);
+    context.subscriptions.push(generateClassCode);
+    context.subscriptions.push(generateInterfaceCode);
+    context.subscriptions.push(generateTraitCode);
+    context.subscriptions.push(generateEnumCode);
 
-    vscode.commands.executeCommand('setContext', 'phpCreateClass.activated', true);
+    vscode.commands.executeCommand('setContext', 'CreateNewFiles.activated', true);
 }
 
 export function deactivate() {}
