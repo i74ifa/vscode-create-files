@@ -85,7 +85,7 @@
             {
                 "command": "CreateNewFiles.generatePhpClassCode",
                 "category": "PHP",
-                "title": "Generate Class code"
+                "title": "Generate Class File"
             },
             {
                 "command": "CreateNewFiles.generatePhpInterfaceCode",
@@ -105,7 +105,17 @@
             {
                 "command": "CreateNewFiles.createVueFile",
                 "category": "Vue.js",
-                "title": "Generate Vue.js File"
+                "title": "New Vue.js File"
+            },
+            {
+                "command": "CreateNewFiles.createReactFunctionFile",
+                "category": "React.js",
+                "title": "New React Function File"
+            },
+            {
+                "command": "CreateNewFiles.createReactClassComponentFile",
+                "category": "React.js",
+                "title": "New React Class Component File"
             }
         ],
         "menus": {
@@ -120,27 +130,37 @@
                 {
                     "command": "CreateNewFiles.createPhpClass",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
-                    "group": "navigation@1"
+                    "group": "phpClasses@1"
                 },
                 {
                     "command": "CreateNewFiles.createPhpInterface",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
-                    "group": "navigation@2"
+                    "group": "phpClasses@2"
                 },
                 {
                     "command": "CreateNewFiles.createPhpTrait",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
-                    "group": "navigation@3"
+                    "group": "phpClasses@3"
                 },
                 {
                     "command": "CreateNewFiles.createPhpEnum",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
-                    "group": "navigation@4"
+                    "group": "phpClasses@4"
                 },
                 {
                     "command": "CreateNewFiles.createVueFile",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
-                    "group": "navigation@5"
+                    "group": "vue.js@1"
+                },
+                {
+                    "command": "CreateNewFiles.createReactFunctionFile",
+                    "when": "explorerResourceIsFolder && CreateNewFiles.activated",
+                    "group": "react@1"
+                },
+                {
+                    "command": "CreateNewFiles.createReactClassComponentFile",
+                    "when": "explorerResourceIsFolder && CreateNewFiles.activated",
+                    "group": "react@2"
                 }
             ]
         },
@@ -164,33 +184,41 @@
                     "default": false,
                     "markdownDescription": "Set `final` modifier when creating a class"
                 },
-                "CreateNewFiles.phpClassTemplateClass": {
+                "CreateNewFiles.templateClass": {
                     "type": "string",
                     "default": "<?php\n{{beforeNamespace}}namespace {{namespace}};\nclass {{className}}\n{\n\t\n}",
                     "markdownDescription": "Enter a Template PHP class Use ```\\n``` to new line or use settings.json for comfortable writing",
-                    "title": "Custom PHP class Template",
-                    "format": "textarea"
+                    "title": "Custom PHP class Template"
                 },
-                "CreateNewFiles.phpClassTemplateInterface": {
+                "CreateNewFiles.templateInterface": {
                     "type": "string",
                     "default": "<?php\n\n {{beforeNamespace}}namespace {{namespace}};\ninterface {{className}}\n{\n\t\n}",
                     "markdownDescription": "Enter a Template PHP class Use ```\\n``` to new line or use settings.json for comfortable writing",
-                    "title": "Custom PHP class Template",
-                    "format": "textarea"
+                    "title": "Custom PHP class Template"
                 },
-                "CreateNewFiles.phpClassTemplateEnum": {
+                "CreateNewFiles.templateEnum": {
                     "type": "string",
                     "default": "<?php\n\n {{beforeNamespace}}namespace {{namespace}};\nenum {{className}}\n{\n\t\n}",
                     "markdownDescription": "Enter a Template PHP class Use ```\\n``` to new line or use settings.json for comfortable writing",
-                    "title": "Custom PHP class Template",
-                    "format": "textarea"
+                    "title": "Custom PHP class Template"
                 },
-                "CreateNewFiles.phpClassTemplateVue": {
+                "CreateNewFiles.templateVue": {
                     "type": "string",
                     "default": "<script>\nexport default {\n\t\n}\n</script>\n\n<template>\t\n</template>",
-                    "markdownDescription": "Enter a Template PHP class Use ```\\n``` to new line or use settings.json for comfortable writing",
-                    "title": "Custom PHP class Template",
-                    "format": "textarea"
+                    "markdownDescription": "Enter a Template Vue.js Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "title": "Custom PHP class Template"
+                },
+                "CreateNewFiles.templateReactFunction": {
+                    "type": "string",
+                    "default": "function {{className}}() {\n\n\treturn (\n\t\t<div></div>\n\t);\n}\nexport default {{className}};",
+                    "markdownDescription": "Enter a Template React class Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "title": "Custom React Function File"
+                },
+                "CreateNewFiles.templateReactClassComponent": {
+                    "type": "string",
+                    "default": "import React from 'react';\n\nexport default class {{className}} extends React.Component {\n\trender() {\n\t\treturn <div></div>\n\t}\n}",
+                    "markdownDescription": "Enter a Template React class Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "title": "Custom Class React Component File"
                 }
             }
         }

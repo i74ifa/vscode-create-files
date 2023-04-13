@@ -7,45 +7,41 @@ interface Prs4Entries {
     path: string;
 }
 
-export default class NamespaceResolver {
-    readonly msgCouldNotBeRead = 'The composer.json file could not be read';
-    readonly msgNamespaceNotResolved = 'The namespace could not be resolved';
-    readonly msgCouldNotBeFound = 'The composer.json file could not be found';
+interface PackageInterface {
+    dependencies?: {
+        typescript?: string;
+        react?: string;
+        vue?: string;
+    };
+}
 
-    public async resolve(folder: string): Promise<string | undefined> {
-        let composerFilePath = this.findComposerFile(folder);
-        if (!composerFilePath) {
+export default class PackageJSON {
+    readonly msgCouldNotBeRead = 'The package.json file could not be read';
+    readonly msgNamespaceNotResolved = 'The namespace could not be resolved';
+    readonly msgCouldNotBeFound = 'The package.json file could not be found';
+
+    public async resolve(folder: string) {
+        let packageFilePath = this.findPackageDotJsonFile(folder);
+        if (!packageFilePath) {
             vscode.window.showErrorMessage(this.msgCouldNotBeFound);
             return undefined;
         }
 
-        let composer = await this.composerContent(composerFilePath);
-        if (!composer) {
-            vscode.window.showErrorMessage(this.msgCouldNotBeRead);
-            return undefined;
-        }
+        let packageContent: PackageInterface = await this.packageContent(packageFilePath);
 
-        const psr4Entries: Prs4Entries[] = this.collectPsr4Entries(composer, 'psr-4');
-        const psr4namespace: string = this.NameSparePathPsr0(folder, composerFilePath.slice(0, -13), psr4Entries, 4);
-
-        if (psr4namespace == '') {
-            const psr0Entries: Prs4Entries[] = this.collectPsr4Entries(composer, 'psr-0');
-            return this.NameSparePathPsr0(folder, composerFilePath.slice(0, -13), psr0Entries, 0);
-        }
-
-        return psr4namespace;
+        return packageContent;
     }
 
-    private async composerContent(composerFilePath: string) {
+    private async packageContent(packageFilePath: string) {
         try {
-            let composerContent: string = (await vscode.workspace.openTextDocument(composerFilePath)).getText();
+            let composerContent: string = (await vscode.workspace.openTextDocument(packageFilePath)).getText();
             return JSON.parse(composerContent);
         } catch (error) {
             return undefined;
         }
     }
 
-    private findComposerFile(folder: string): string | undefined {
+    private findPackageDotJsonFile(folder: string): string | undefined {
         let workspaceFolder = vscode.workspace.getWorkspaceFolder(vscode.Uri.file(folder))?.uri.fsPath;
         let segments = folder.split(path.sep);
 
@@ -55,7 +51,7 @@ export default class NamespaceResolver {
             const fullPath = segments.join(path.sep);
 
             try {
-                const composerPath = path.join(fullPath, 'composer.json');
+                const composerPath = path.join(fullPath, 'package.json');
                 statSync(composerPath);
 
                 return composerPath;
@@ -71,24 +67,22 @@ export default class NamespaceResolver {
         return undefined;
     }
 
-    private collectPsr4Entries(composer: any, psr4or0: string): Prs4Entries[] {
-        let autoloadEntries: { [key: string]: string } = {};
+    public async hasTypescript(folder: string, type: string): Promise<string | undefined> {
+        let packageContent: PackageInterface | undefined = await this.resolve(folder);
 
-        if (composer.hasOwnProperty('autoload') && composer.autoload.hasOwnProperty(psr4or0)) {
-            autoloadEntries = composer.autoload[psr4or0];
+        if (!packageContent) {
+            return undefined;
         }
-
-        let autoloadDevEntries: { [key: string]: string } = {};
-        if (composer.hasOwnProperty('autoload-dev') && composer['autoload-dev'].hasOwnProperty(psr4or0)) {
-            autoloadDevEntries = composer['autoload-dev'][psr4or0];
+        const typescript = packageContent.dependencies?.typescript;
+        if (type == 'react') {
+            if (typescript) {
+                return 'tsx';
+            } else {
+                return 'jsx';
+            }
+        } else if (type == 'vue') {
+            return typescript;
         }
-
-        let psr4Entries: Prs4Entries[] = [];
-
-        this.pushToList(psr4Entries, autoloadEntries);
-        this.pushToList(psr4Entries, autoloadDevEntries);
-
-        return psr4Entries;
     }
 
     private pushToList(psr4Entries: Prs4Entries[], entries: { [key: string]: string }) {

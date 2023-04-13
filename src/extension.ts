@@ -13,6 +13,8 @@ export function activate(context: vscode.ExtensionContext) {
     let generateTraitCode = vscode.commands.registerCommand('CreateNewFiles.generatePhpTraitCode', () => creator.generateCode('Trait'));
     let generateEnumCode = vscode.commands.registerCommand('CreateNewFiles.generatePhpEnumCode', () => creator.generateCode('Enum'));
     let createVueFile = vscode.commands.registerCommand('CreateNewFiles.createVueFile', (folder) => creator.createFile('Vue', folder, 'vue'));
+    let createReactFunctionFile = vscode.commands.registerCommand('CreateNewFiles.createReactFunctionFile', (folder) => creator.createFile('ReactFunction', folder, 'jsx'));
+    let createReactClassComponentFile = vscode.commands.registerCommand('CreateNewFiles.createReactClassComponentFile', (folder) => creator.createFile('ReactClassComponent', folder, 'jsx'));
 
     context.subscriptions.push(createClass);
     context.subscriptions.push(createInterface);
@@ -22,6 +24,8 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(generateInterfaceCode);
     context.subscriptions.push(generateTraitCode);
     context.subscriptions.push(generateEnumCode);
+    context.subscriptions.push(createReactFunctionFile);
+    context.subscriptions.push(createReactClassComponentFile);
 
     vscode.commands.executeCommand('setContext', 'CreateNewFiles.activated', true);
 }

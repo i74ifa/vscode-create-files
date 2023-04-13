@@ -1,13 +1,15 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import NamespaceResolver from './NamespaceResolver';
+import PackageJSON from './PackageJSON';
 import path = require('path');
 export default class PhpClassCreator {
     readonly msgFileExists = 'File already exists!';
     readonly msgMustOpenFile = 'You must open a file to generate code';
     readonly msgNotFoundTemplate = 'We can not file this Template!';
+    folder: any;
 
-    public async createFile(type: string, folder: any, extension: string = 'php') {
+    public async createFile(type: string, folder: any, extension: any = 'php') {
         if (!folder) {
             let askedFolder = await vscode.window.showOpenDialog({
                 canSelectFiles: false,
@@ -21,6 +23,7 @@ export default class PhpClassCreator {
 
             folder = askedFolder[0];
         }
+        this.folder = folder;
 
         let name = await vscode.window.showInputBox({
             title: 'New PHP ' + this.capitalize(type),
@@ -70,14 +73,13 @@ export default class PhpClassCreator {
         this.writeFile(type, path.basename(currentFile), currentFile, namespace, true);
     }
 
-    private writeFile(type: string, name: string, filename: string, namespace: string, overwrite: boolean = false, extension: string = 'php'): void {
-        if (!vscode.workspace.getConfiguration('CreateNewFiles').has('phpClassTemplate' + type)) {
+    private async writeFile(type: string, name: string, filename: string, namespace: string, overwrite: boolean = false, extension: any = 'php'): Promise<void> {
+        if (!vscode.workspace.getConfiguration('CreateNewFiles').has('template' + type)) {
             vscode.window.showErrorMessage(this.msgNotFoundTemplate);
             return;
         }
-        let template: string = vscode.workspace.getConfiguration('CreateNewFiles').get('phpClassTemplate' + type)!;
+        let template: string = vscode.workspace.getConfiguration('CreateNewFiles').get('template' + type)!;
         name = name.replace(new RegExp(`\\.${extension}+$`, 'g'), '');
-
         if (extension === 'php') {
             if (vscode.workspace.getConfiguration('CreateNewFiles').get('strictTypes')) {
                 template = template.replace('{{beforeNamespace}}', 'declare(strict_types=1);\n');
@@ -97,6 +99,12 @@ export default class PhpClassCreator {
             template = template.replace('{{className}}', name);
         } else if (extension === 'vue') {
             //
+        } else if (extension === 'jsx') {
+            let packageDotJSON: PackageJSON = new PackageJSON();
+            if (await packageDotJSON.hasTypescript(this.folder.fsPath, 'react')) {
+                extension = 'tsx';
+            }
+            template = template.replaceAll('{{className}}', name);
         }
 
         fs.writeFileSync(filename, template);
