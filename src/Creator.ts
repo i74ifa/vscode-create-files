@@ -32,23 +32,24 @@ export default class PhpClassCreator {
             return;
         }
 
-        let namespaceResolver: NamespaceResolver = new NamespaceResolver();
-        let namespace = await namespaceResolver.resolve(folder.fsPath);
-
-        if (namespace === undefined) {
-            return;
-        }
-
         let filename = name.endsWith('.' + extension) ? name : name + '.' + extension;
 
         let spaceIndex: number = filename.indexOf(' ');
         if (spaceIndex > 0) {
             filename = filename.substring(0, spaceIndex) + '.' + extension;
         }
-
         let fullFilename = folder.fsPath + path.sep + filename;
 
-        this.writeFile(type, name, fullFilename, namespace, false, extension);
+        if (extension === 'php') {
+            let namespaceResolver: NamespaceResolver = new NamespaceResolver();
+            let namespace = await namespaceResolver.resolve(folder.fsPath);
+            if (namespace === undefined) {
+                return;
+            }
+            this.writeFile(type, name, fullFilename, namespace, false, extension);
+        } else {
+            this.writeFile(type, name, fullFilename, '', false, extension);
+        }
     }
 
     public async generateCode(type: string) {
