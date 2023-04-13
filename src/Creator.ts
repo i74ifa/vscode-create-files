@@ -1,112 +1,111 @@
-import * as vscode from 'vscode'
-import * as fs from 'fs'
-import NamespaceResolver from './NamespaceResolver'
-import path = require('path')
-export default class Creator {
-    readonly msgFileExists = "File already exists!"
-    readonly msgMustOpenFile = 'You must open a file to generate code'
+import * as vscode from 'vscode';
+import * as fs from 'fs';
+import NamespaceResolver from './NamespaceResolver';
+import path = require('path');
+export default class PhpClassCreator {
+    readonly msgFileExists = 'File already exists!';
+    readonly msgMustOpenFile = 'You must open a file to generate code';
+    readonly msgNotFoundTemplate = 'We can not file this Template!';
 
-    public async createFile(type: string, folder: any) {
+    public async createFile(type: string, folder: any, extension: string = 'php') {
         if (!folder) {
             let askedFolder = await vscode.window.showOpenDialog({
                 canSelectFiles: false,
                 canSelectFolders: true,
                 canSelectMany: false
-            })
+            });
 
             if (!askedFolder || !askedFolder[0]) {
-                return
+                return;
             }
 
-            folder = askedFolder[0]
+            folder = askedFolder[0];
         }
 
         let name = await vscode.window.showInputBox({
-            title: "New PHP " + this.capitalize(type),
-            placeHolder: "Name",
-            prompt: "Name of " + type
-        })
+            title: 'New PHP ' + this.capitalize(type),
+            placeHolder: 'Name',
+            prompt: 'Name of ' + type
+        });
 
         if (!name) {
-            return
+            return;
         }
 
-        let namespaceResolver: NamespaceResolver = new NamespaceResolver()
-        let namespace = await namespaceResolver.resolve(folder.fsPath)
+        let namespaceResolver: NamespaceResolver = new NamespaceResolver();
+        let namespace = await namespaceResolver.resolve(folder.fsPath);
 
         if (namespace === undefined) {
-            return
+            return;
         }
 
-        let filename = name.endsWith('.php') ? name : name + '.php'
-        
-        let space_index: number = filename.indexOf(' ')
-        if (space_index > 0) {
-            filename = filename.substring(0, space_index) + '.php'
-        }
-        
-        let fullFilename = folder.fsPath + path.sep + filename
+        let filename = name.endsWith('.' + extension) ? name : name + '.' + extension;
 
-        this.writeFile(type, name, fullFilename, namespace)
+        let spaceIndex: number = filename.indexOf(' ');
+        if (spaceIndex > 0) {
+            filename = filename.substring(0, spaceIndex) + '.' + extension;
+        }
+
+        let fullFilename = folder.fsPath + path.sep + filename;
+
+        this.writeFile(type, name, fullFilename, namespace, false, extension);
     }
 
     public async generateCode(type: string) {
-        const currentFile  = vscode.window.activeTextEditor?.document.fileName
-        
+        const currentFile = vscode.window.activeTextEditor?.document.fileName;
+
         if (!currentFile) {
-            vscode.window.showErrorMessage(this.msgMustOpenFile)
-            return
+            vscode.window.showErrorMessage(this.msgMustOpenFile);
+            return;
         }
 
-        let namespaceResolver: NamespaceResolver = new NamespaceResolver()
-        let namespace = await namespaceResolver.resolve(path.dirname(currentFile))
+        let namespaceResolver: NamespaceResolver = new NamespaceResolver();
+        let namespace = await namespaceResolver.resolve(path.dirname(currentFile));
 
         if (namespace === undefined) {
-            return
+            return;
         }
-        
-        this.writeFile(type, path.basename(currentFile), currentFile, namespace, true)
+
+        this.writeFile(type, path.basename(currentFile), currentFile, namespace, true);
     }
 
-    private writeFile(type: string, name: string, filename: string, namespace: string, overwrite: boolean = false): void {
-        if (fs.existsSync(filename) && !overwrite) {
-            vscode.window.showErrorMessage(this.msgFileExists)
-            return
+    private writeFile(type: string, name: string, filename: string, namespace: string, overwrite: boolean = false, extension: string = 'php'): void {
+        if (!vscode.workspace.getConfiguration('CreateNewFiles').has('phpClassTemplate' + type)) {
+            vscode.window.showErrorMessage(this.msgNotFoundTemplate);
+            return;
         }
-    
-        name = name.replace(/\.php+$/g, "")
-        
-        let content = "<?php\n"
+        let template: string = vscode.workspace.getConfiguration('CreateNewFiles').get('phpClassTemplate' + type)!;
+        name = name.replace(new RegExp(`\\.${extension}+$`, 'g'), '');
 
-        if(vscode.workspace.getConfiguration("phpCreateClass").get("strictTypes")) {
-            content += "\n"
-            content += "declare(strict_types=1);\n"
+        if (extension === 'php') {
+            if (vscode.workspace.getConfiguration('CreateNewFiles').get('strictTypes')) {
+                template = template.replace('{{beforeNamespace}}', 'declare(strict_types=1);\n');
+            } else {
+                template = template.replace('{{beforeNamespace}}', '\n');
+            }
+            if (namespace) {
+                template = template.replace('{{namespace}}', namespace);
+            } else {
+                template = template.replace(/namespace?\s{{namespace}};?/g, namespace);
+            }
+
+            if (fs.existsSync(filename) && !overwrite) {
+                vscode.window.showErrorMessage(this.msgFileExists);
+                return;
+            }
+            template = template.replace('{{className}}', name);
+        } else if (extension === 'vue') {
+            //
         }
 
-        content += "\n"
-        content += "namespace " + namespace + ";\n"
-        content += "\n"
-		
-		if(vscode.workspace.getConfiguration("phpCreateClass").get("finalClass") && type === "class") {
+        fs.writeFileSync(filename, template);
 
-            content += "final" + " " + type + " " + name + "\n";
-
-        }else{
-
-            content += type + " " + name + "\n";
-
-        }
-		
-        content += "{\n\n}\n"
-
-        fs.writeFileSync(filename, content)
-
-        vscode.workspace.openTextDocument(vscode.Uri.file(filename)).then(file => {
-            vscode.window.showTextDocument(file)
-        })
+        vscode.workspace.openTextDocument(vscode.Uri.file(filename)).then((file) => {
+            vscode.window.showTextDocument(file);
+        });
     }
 
     private capitalize(text: string): string {
-        return text.charAt(0).toUpperCase() + text.slice(1)
+        return text.charAt(0).toUpperCase() + text.slice(1);
     }
 }
