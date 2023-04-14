@@ -13,8 +13,10 @@ export function activate(context: vscode.ExtensionContext) {
     let generateTraitCode = vscode.commands.registerCommand('CreateNewFiles.generatePhpTraitCode', () => creator.generateCode('Trait'));
     let generateEnumCode = vscode.commands.registerCommand('CreateNewFiles.generatePhpEnumCode', () => creator.generateCode('Enum'));
     let createVueFile = vscode.commands.registerCommand('CreateNewFiles.createVueFile', (folder) => creator.createFile('Vue', folder, 'vue'));
+    let createSvelteFile = vscode.commands.registerCommand('CreateNewFiles.createSvelteFile', (folder) => creator.createFile('Svelte', folder, 'svelte'));
     let createReactFunctionFile = vscode.commands.registerCommand('CreateNewFiles.createReactFunctionFile', (folder) => creator.createFile('ReactFunction', folder, 'jsx'));
     let createReactClassComponentFile = vscode.commands.registerCommand('CreateNewFiles.createReactClassComponentFile', (folder) => creator.createFile('ReactClassComponent', folder, 'jsx'));
+    let createHtml5File = vscode.commands.registerCommand('CreateNewFiles.createHtml5File', (folder) => creator.createFile('Html5', folder, 'html'));
 
     context.subscriptions.push(createClass);
     context.subscriptions.push(createInterface);
@@ -25,7 +27,10 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(generateTraitCode);
     context.subscriptions.push(generateEnumCode);
     context.subscriptions.push(createReactFunctionFile);
+    context.subscriptions.push(createVueFile);
+    context.subscriptions.push(createSvelteFile);
     context.subscriptions.push(createReactClassComponentFile);
+    context.subscriptions.push(createHtml5File);
 
     vscode.commands.executeCommand('setContext', 'CreateNewFiles.activated', true);
 }

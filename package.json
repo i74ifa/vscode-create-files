@@ -116,6 +116,16 @@
                 "command": "CreateNewFiles.createReactClassComponentFile",
                 "category": "React.js",
                 "title": "New React Class Component File"
+            },
+            {
+                "command": "CreateNewFiles.createSvelteFile",
+                "category": "Svelte.js",
+                "title": "New Svelte.js File"
+            },
+            {
+                "command": "CreateNewFiles.createHtml5File",
+                "category": "Html",
+                "title": "New Html 5 File"
             }
         ],
         "menus": {
@@ -161,6 +171,16 @@
                     "command": "CreateNewFiles.createReactClassComponentFile",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
                     "group": "react@2"
+                },
+                {
+                    "command": "CreateNewFiles.createSvelteFile",
+                    "when": "explorerResourceIsFolder && CreateNewFiles.activated",
+                    "group": "svelte@1"
+                },
+                {
+                    "command": "CreateNewFiles.createHtml5File",
+                    "when": "explorerResourceIsFolder && CreateNewFiles.activated",
+                    "group": "html@1"
                 }
             ]
         },
@@ -219,6 +239,18 @@
                     "default": "import React from 'react';\n\nexport default class {{className}} extends React.Component {\n\trender() {\n\t\treturn <div></div>\n\t}\n}",
                     "markdownDescription": "Enter a Template React class Use ```\\n``` to new line or use settings.json for comfortable writing",
                     "title": "Custom Class React Component File"
+                },
+                "CreateNewFiles.templateSvelte": {
+                    "type": "string",
+                    "default": "<script></script>\n<main></main>",
+                    "markdownDescription": "Enter a Template Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "title": "Custom Class Svelte Template"
+                },
+                "CreateNewFiles.templateHtml5": {
+                    "type": "string",
+                    "default": "<!DOCTYPE html>\n<html>\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<title></title>\n</head>\n<body>\n</body>\n</html>",
+                    "markdownDescription": "Enter a Template Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "title": "Custom Html5 Template"
                 }
             }
         }
