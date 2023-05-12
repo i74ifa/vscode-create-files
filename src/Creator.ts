@@ -74,11 +74,10 @@ export default class PhpClassCreator {
     }
 
     private async writeFile(type: string, name: string, filename: string, namespace: string, overwrite: boolean = false, extension: any = 'php'): Promise<void> {
-        if (!vscode.workspace.getConfiguration('CreateNewFiles').has('template' + type)) {
-            vscode.window.showErrorMessage(this.msgNotFoundTemplate);
-            return;
+        let template: string = '';
+        if (vscode.workspace.getConfiguration('CreateNewFiles').has('template' + type)) {
+            template = vscode.workspace.getConfiguration('CreateNewFiles').get('template' + type)!;
         }
-        let template: string = vscode.workspace.getConfiguration('CreateNewFiles').get('template' + type)!;
         name = name.replace(new RegExp(`\\.${extension}+$`, 'g'), '');
         if (extension === 'php') {
             if (vscode.workspace.getConfiguration('CreateNewFiles').get('strictTypes')) {
@@ -98,7 +97,7 @@ export default class PhpClassCreator {
             }
             template = template.replace('{{className}}', name);
         } else if (extension === 'vue') {
-            //
+            template = template.replaceAll('{{className}}', name);
         } else if (extension === 'jsx') {
             let packageDotJSON: PackageJSON = new PackageJSON();
             if (await packageDotJSON.hasTypescript(this.folder.fsPath, 'react')) {

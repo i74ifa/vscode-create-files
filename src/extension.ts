@@ -17,6 +17,9 @@ export function activate(context: vscode.ExtensionContext) {
     let createReactFunctionFile = vscode.commands.registerCommand('CreateNewFiles.createReactFunctionFile', (folder) => creator.createFile('ReactFunction', folder, 'jsx'));
     let createReactClassComponentFile = vscode.commands.registerCommand('CreateNewFiles.createReactClassComponentFile', (folder) => creator.createFile('ReactClassComponent', folder, 'jsx'));
     let createHtml5File = vscode.commands.registerCommand('CreateNewFiles.createHtml5File', (folder) => creator.createFile('Html5', folder, 'html'));
+    let createVueComponentFile = vscode.commands.registerCommand('CreateNewFiles.createVueComponentFile', (folder) => creator.createFile('VueComponent', folder, 'vue'));
+    let createCssFile = vscode.commands.registerCommand('CreateNewFiles.createCssFile', (folder) => creator.createFile('cssStylesheet', folder, 'css'));
+    let createJsFile = vscode.commands.registerCommand('CreateNewFiles.createJsFile', (folder) => creator.createFile('cssStylesheet', folder, 'js'));
 
     context.subscriptions.push(createClass);
     context.subscriptions.push(createInterface);
@@ -31,6 +34,8 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(createSvelteFile);
     context.subscriptions.push(createReactClassComponentFile);
     context.subscriptions.push(createHtml5File);
+    context.subscriptions.push(createVueComponentFile);
+    context.subscriptions.push(createCssFile);
 
     vscode.commands.executeCommand('setContext', 'CreateNewFiles.activated', true);
 }

@@ -2,7 +2,7 @@
     "name": "vscode-create-files",
     "displayName": "Create Files",
     "description": "A Visual Studio Code extension for create PHP Classes and vue.js and react and more. context menu in file explorer",
-    "version": "1.0.25",
+    "version": "1.0.3",
     "author": {
         "name": "Hothaifa Jaber",
         "url": "https://github.com/i74ifa"
@@ -54,7 +54,7 @@
             {
                 "command": "CreateNewFiles.createPhpClass",
                 "category": "PHP",
-                "title": "New PHP Class",
+                "title": "🧾 New PHP Class",
                 "commands": [
                     {
                         "command": "CreateNewFiles.createPhpClass",
@@ -70,17 +70,17 @@
             {
                 "command": "CreateNewFiles.createPhpInterface",
                 "category": "PHP",
-                "title": "New PHP Interface"
+                "title": "🧾 New PHP Interface"
             },
             {
                 "command": "CreateNewFiles.createPhpTrait",
                 "category": "PHP",
-                "title": "New PHP Trait"
+                "title": "🧾 New PHP Trait"
             },
             {
                 "command": "CreateNewFiles.createPhpEnum",
                 "category": "PHP",
-                "title": "New PHP Enum"
+                "title": "🧾 New PHP Enum"
             },
             {
                 "command": "CreateNewFiles.generatePhpClassCode",
@@ -105,27 +105,47 @@
             {
                 "command": "CreateNewFiles.createVueFile",
                 "category": "Vue.js",
-                "title": "New Vue.js File"
+                "title": "🧾 Vue.js File"
+            },
+            {
+                "command": "CreateNewFiles.createVueComponentFile",
+                "category": "Vue.js",
+                "title": "🧾 Vue.js Component File"
             },
             {
                 "command": "CreateNewFiles.createReactFunctionFile",
                 "category": "React.js",
-                "title": "New React Function File"
+                "title": "🧾 React Function File"
             },
             {
                 "command": "CreateNewFiles.createReactClassComponentFile",
                 "category": "React.js",
-                "title": "New React Class Component File"
+                "title": "🧾 React Class Component File"
             },
             {
                 "command": "CreateNewFiles.createSvelteFile",
                 "category": "Svelte.js",
-                "title": "New Svelte.js File"
+                "title": "🧾  Svelte.js File"
             },
             {
                 "command": "CreateNewFiles.createHtml5File",
-                "category": "Html",
-                "title": "New Html 5 File"
+                "category": "html",
+                "title": "🧾 Html 5 File"
+            },
+            {
+                "command": "CreateNewFiles.createCssFile",
+                "category": "css",
+                "title": "🧾 Css Stylesheets"
+            },
+            {
+                "command": "CreateNewFiles.createJsFile",
+                "category": "js",
+                "title": "🧾 Javascript File"
+            },
+            {
+                "command": "CreateNewFiles.createTsFile",
+                "category": "js",
+                "title": "🧾 Typescript File"
             }
         ],
         "menus": {
@@ -136,7 +156,7 @@
                     "when": "explorerResourceIsFolder"
                 }
             ],
-            "CreateNewFilesSubMenu": [
+            "CreateNewFilesPHPClassesSubMenu": [
                 {
                     "command": "CreateNewFiles.createPhpClass",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
@@ -156,9 +176,16 @@
                     "command": "CreateNewFiles.createPhpEnum",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
                     "group": "phpClasses@4"
-                },
+                }
+            ],
+            "CreateNewFilesJsFrameworkSubMenu": [
                 {
                     "command": "CreateNewFiles.createVueFile",
+                    "when": "explorerResourceIsFolder && CreateNewFiles.activated",
+                    "group": "vue.js@1"
+                },
+                {
+                    "command": "CreateNewFiles.createVueComponentFile",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
                     "group": "vue.js@1"
                 },
@@ -176,18 +203,53 @@
                     "command": "CreateNewFiles.createSvelteFile",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
                     "group": "svelte@1"
+                }
+            ],
+            "CreateNewFilesSubMenu": [
+                {
+                    "submenu": "CreateNewFilesJsFrameworkSubMenu",
+                    "when": "explorerResourceIsFolder && CreateNewFiles.activated",
+                    "group": "js@1"
+                },
+                {
+                    "submenu": "CreateNewFilesPHPClassesSubMenu",
+                    "when": "explorerResourceIsFolder && CreateNewFiles.activated",
+                    "group": "phpClasses@1"
                 },
                 {
                     "command": "CreateNewFiles.createHtml5File",
                     "when": "explorerResourceIsFolder && CreateNewFiles.activated",
-                    "group": "html@1"
+                    "group": "z-blank@1"
+                },
+                {
+                    "command": "CreateNewFiles.createCssFile",
+                    "when": "explorerResourceIsFolder && CreateNewFiles.activated",
+                    "group": "z-blank@2"
+                },
+                {
+                    "command": "CreateNewFiles.createJsFile",
+                    "when": "explorerResourceIsFolder && CreateNewFiles.activated",
+                    "group": "z-blank@3"
+                },
+                {
+                    "command": "CreateNewFiles.createTsFile",
+                    "when": "explorerResourceIsFolder && CreateNewFiles.activated",
+                    "group": "z-blank@4"
                 }
             ]
         },
         "submenus": [
             {
-                "label": "New File",
+                "label": "➕ New",
                 "id": "CreateNewFilesSubMenu"
+            },
+            {
+                "label": "🛠️ JS",
+                "id": "CreateNewFilesJsFrameworkSubMenu"
+            },
+            {
+                "label": "🅿️ PHP Classes",
+                "id": "CreateNewFilesPHPClassesSubMenu"
             }
         ],
         "configuration": {
@@ -225,6 +287,12 @@
                 "CreateNewFiles.templateVue": {
                     "type": "string",
                     "default": "<script>\nexport default {\n\t\n}\n</script>\n\n<template>\t\n</template>",
+                    "markdownDescription": "Enter a Template Vue.js Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "title": "Custom PHP class Template"
+                },
+                "CreateNewFiles.templateVueComponent": {
+                    "type": "string",
+                    "default": "<script>\nimport { defineComponent } from 'vue';\nexport default defineComponent({\n\tname: '{{className}}',\n\tprops: {}\n});\n</script>\n\n<template>\t\n</template>",
                     "markdownDescription": "Enter a Template Vue.js Use ```\\n``` to new line or use settings.json for comfortable writing",
                     "title": "Custom PHP class Template"
                 },
