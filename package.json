@@ -2,7 +2,7 @@
     "name": "vscode-create-files",
     "displayName": "Create Files",
     "description": "A Visual Studio Code extension for create PHP Classes and vue.js and react and more. context menu in file explorer",
-    "version": "1.1.01",
+    "version": "1.1.1",
     "author": {
         "name": "Hothaifa Jaber",
         "url": "https://github.com/i74ifa"
