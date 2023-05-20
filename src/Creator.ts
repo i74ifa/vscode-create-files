@@ -95,7 +95,12 @@ export default class PhpClassCreator {
                 vscode.window.showErrorMessage(this.msgFileExists);
                 return;
             }
-            template = template.replace('{{className}}', name);
+
+            if (vscode.workspace.getConfiguration('CreateNewFiles').get('finalClass')) {
+                template = template.replace('class {{className}}', 'final class ' + name);
+            } else {
+                template = template.replace('{{className}}', name);
+            }
         } else if (extension === 'vue') {
             template = template.replaceAll('{{className}}', name);
         } else if (extension === 'jsx') {
