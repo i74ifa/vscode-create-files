@@ -268,56 +268,65 @@
                 },
                 "CreateNewFiles.templateClass": {
                     "type": "string",
-                    "default": "<?php\n{{beforeNamespace}}namespace {{namespace}};\nclass {{className}}\n{\n\t\n}",
-                    "markdownDescription": "Enter a Template PHP class Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "editPresentation": "multilineText",
+                    "default": "<?php\n{{beforeNamespace}}\nnamespace {{namespace}};\nclass {{className}}\n{\n\t\n}",
+                    "markdownDescription": "Enter a Template PHP class",
                     "title": "Custom PHP class Template"
                 },
                 "CreateNewFiles.templateInterface": {
                     "type": "string",
-                    "default": "<?php\n\n {{beforeNamespace}}namespace {{namespace}};\ninterface {{className}}\n{\n\t\n}",
-                    "markdownDescription": "Enter a Template PHP class Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "editPresentation": "multilineText",
+                    "default": "<?php\n\n {{beforeNamespace}}\nnamespace {{namespace}};\ninterface {{className}}\n{\n\t\n}",
+                    "markdownDescription": "Enter a Template PHP class",
                     "title": "Custom PHP class Template"
                 },
                 "CreateNewFiles.templateEnum": {
                     "type": "string",
+                    "editPresentation": "multilineText",
                     "default": "<?php\n\n {{beforeNamespace}}namespace {{namespace}};\nenum {{className}}\n{\n\t\n}",
-                    "markdownDescription": "Enter a Template PHP class Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "markdownDescription": "Enter a Template PHP class",
                     "title": "Custom PHP class Template"
                 },
                 "CreateNewFiles.templateVue": {
                     "type": "string",
+                    "editPresentation": "multilineText",
                     "default": "<script>\nexport default {\n\t\n}\n</script>\n\n<template>\t\n</template>",
-                    "markdownDescription": "Enter a Template Vue.js Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "markdownDescription": "Enter a Template Vue.js",
                     "title": "Custom PHP class Template"
                 },
                 "CreateNewFiles.templateVueComponent": {
                     "type": "string",
+                    "editPresentation": "multilineText",
                     "default": "<script>\nimport { defineComponent } from 'vue';\nexport default defineComponent({\n\tname: '{{className}}',\n\tprops: {}\n});\n</script>\n\n<template>\t\n</template>",
-                    "markdownDescription": "Enter a Template Vue.js Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "markdownDescription": "Enter a Template Vue.js",
                     "title": "Custom PHP class Template"
                 },
                 "CreateNewFiles.templateReactFunction": {
                     "type": "string",
+                    "editPresentation": "multilineText",
                     "default": "function {{className}}() {\n\n\treturn (\n\t\t<div></div>\n\t);\n}\nexport default {{className}};",
-                    "markdownDescription": "Enter a Template React class Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "markdownDescription": "Enter a Template React class",
                     "title": "Custom React Function File"
                 },
                 "CreateNewFiles.templateReactClassComponent": {
                     "type": "string",
+                    "editPresentation": "multilineText",
                     "default": "import React from 'react';\n\nexport default class {{className}} extends React.Component {\n\trender() {\n\t\treturn <div></div>\n\t}\n}",
-                    "markdownDescription": "Enter a Template React class Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "markdownDescription": "Enter a Template React class",
                     "title": "Custom Class React Component File"
                 },
                 "CreateNewFiles.templateSvelte": {
                     "type": "string",
+                    "editPresentation": "multilineText",
                     "default": "<script></script>\n<main></main>",
-                    "markdownDescription": "Enter a Template Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "markdownDescription": "Enter a Template",
                     "title": "Custom Class Svelte Template"
                 },
                 "CreateNewFiles.templateHtml5": {
                     "type": "string",
+                    "editPresentation": "multilineText",
                     "default": "<!DOCTYPE html>\n<html>\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<title></title>\n</head>\n<body>\n</body>\n</html>",
-                    "markdownDescription": "Enter a Template Use ```\\n``` to new line or use settings.json for comfortable writing",
+                    "markdownDescription": "Enter a Template",
                     "title": "Custom Html5 Template"
                 }
             }
