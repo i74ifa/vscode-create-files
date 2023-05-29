@@ -109,7 +109,7 @@ export default class PhpClassCreator {
             if (await packageDotJSON.hasTypescript(this.folder.fsPath, 'react')) {
                 extension = 'tsx';
             }
-            template = template.replaceAll('{{className}}', name + 's');
+            template = template.replaceAll('{{className}}', name);
         }
 
         fs.writeFileSync(filename, template);
