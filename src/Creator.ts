@@ -75,8 +75,9 @@ export default class PhpClassCreator {
 
     private async writeFile(type: string, name: string, filename: string, namespace: string, overwrite: boolean = false, extension: any = 'php'): Promise<void> {
         let template: string = '';
-        if (vscode.workspace.getConfiguration('CreateNewFiles').has('template' + type)) {
-            template = vscode.workspace.getConfiguration('CreateNewFiles').get('template' + type)!;
+        let fileType: string = 'template' + type;
+        if (vscode.workspace.getConfiguration('CreateNewFiles').has(fileType)) {
+            template = vscode.workspace.getConfiguration('CreateNewFiles').get(fileType)!;
         }
         name = name.replace(new RegExp(`\\.${extension}+$`, 'g'), '');
         if (extension === 'php') {
@@ -96,7 +97,7 @@ export default class PhpClassCreator {
                 return;
             }
 
-            if (vscode.workspace.getConfiguration('CreateNewFiles').get('finalClass')) {
+            if (vscode.workspace.getConfiguration('CreateNewFiles').get('finalClass') && fileType === 'templateClass') {
                 template = template.replace('class {{className}}', 'final class ' + name);
             } else {
                 template = template.replace('{{className}}', name);
@@ -108,7 +109,7 @@ export default class PhpClassCreator {
             if (await packageDotJSON.hasTypescript(this.folder.fsPath, 'react')) {
                 extension = 'tsx';
             }
-            template = template.replaceAll('{{className}}', name);
+            template = template.replaceAll('{{className}}', name + 's');
         }
 
         fs.writeFileSync(filename, template);
