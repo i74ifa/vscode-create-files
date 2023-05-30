@@ -248,7 +248,7 @@
                 "id": "CreateNewFilesJsFrameworkSubMenu"
             },
             {
-                "label": "🅿️ PHP Classes",
+                "label": "🅿️ PHP",
                 "id": "CreateNewFilesPHPClassesSubMenu"
             }
         ],
