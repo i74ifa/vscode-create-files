@@ -276,14 +276,14 @@
                 "CreateNewFiles.templateInterface": {
                     "type": "string",
                     "editPresentation": "multilineText",
-                    "default": "<?php\n\n {{beforeNamespace}}\nnamespace {{namespace}};\ninterface {{className}}\n{\n\t\n}",
+                    "default": "<?php\n\n{{beforeNamespace}}\nnamespace {{namespace}};\ninterface {{className}}\n{\n\t\n}",
                     "markdownDescription": "Enter a Template PHP class",
                     "title": "Custom PHP class Template"
                 },
                 "CreateNewFiles.templateEnum": {
                     "type": "string",
                     "editPresentation": "multilineText",
-                    "default": "<?php\n\n {{beforeNamespace}}namespace {{namespace}};\nenum {{className}}\n{\n\t\n}",
+                    "default": "<?php\n\n{{beforeNamespace}}namespace {{namespace}};\nenum {{className}}\n{\n\t\n}",
                     "markdownDescription": "Enter a Template PHP class",
                     "title": "Custom PHP class Template"
                 },
